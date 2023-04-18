@@ -1,17 +1,18 @@
 {
-  "name": "typescriptconfig",
+  "name": "synctax",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && tsc-alias"
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tsc-alias": "^1.8.5",
-    "typescript": "^5.0.4"
+    "nodemon": "^2.0.22",
+    "ts-alias": "^0.0.7",
+    "tsconfig-paths": "^4.2.0"
   }
 }
