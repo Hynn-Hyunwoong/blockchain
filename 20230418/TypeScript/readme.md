@@ -16,6 +16,11 @@ npm install -D typescript
 ```
 
 3. 파일명을 지정하면, 해당 파일을 찾고, 파일명을 지정하지 않을 경우, tsc 의 명령어리스트가 출력됨
+4. 파일명 지정 후 build 시 해당 TypeScript 를 JavaScript 로 변환
+5. `--outDir [경로]` 설정시 지정된 경로에 저장함
+6. `--target [문법명]` 설정시, 지정한 문법으로 변환
+7. `--project, -p` 설정시, 특정 파일의 config 지정
+
 
 - 명령줄
 
