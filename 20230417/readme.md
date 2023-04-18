@@ -282,3 +282,11 @@ PoW는 작업 증명을 통해 합의를 이루는 과정으로, 다수의 블�
 - Class Component (Class Function)
 - 객체에 기능을 넣자
 - SOLID (객체 지향 설계)
+1. SRP
+2. OCP
+3. LSP
+4. ISP
+5. DIP
+
+- OOP Design Pattern 
+
