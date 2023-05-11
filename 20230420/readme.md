@@ -53,4 +53,6 @@ D : DIP(Dependency Inversion Principle)
 1. Public, Private
 
 Default is Public
-Private 를 설정시 외부에서 접근불가
+Private 를 설정시 외부에서 접근불가, 클래스 내에서만 사용가능
+이를 데이터 은닉화라고 함
+

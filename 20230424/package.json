@@ -12,12 +12,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/jest": "^29.5.1",
+    "@types/merkle": "^0.6.1",
     "jest": "^29.5.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
+    "merkle": "^0.6.0",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.6",
@@ -25,6 +29,9 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnviroment": "node"
+    "testEnviroment": "node",
+    "moduleNameMapper": {
+      "^@(src|constants|core)/(.+)$": "<rootDir>/src/$1/$2"
+    }
   }
 }

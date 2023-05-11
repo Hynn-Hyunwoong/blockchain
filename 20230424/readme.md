@@ -57,4 +57,10 @@ it / test
 expect. method
 ```
 
-### Jest Work-logic
+## BlockChain - Bitcoin
+
+`Block`
+
+1. Genesys Block
+   Like a primary Key (Auto-Increment)
+   Root-Block
