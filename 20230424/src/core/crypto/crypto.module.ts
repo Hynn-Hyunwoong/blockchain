@@ -1,4 +1,4 @@
-import { Hash } from "tpyes/block";
+import { Hash } from "types/block";
 import cryptojs from "crypto-js";
 import merkle from "merkle";
 import {
@@ -6,6 +6,7 @@ import {
   TransactionData,
 } from "@core/transaction/transaction.interface";
 import { BlockData, BlockInfo } from "@core/block/block.interface";
+import { Receipt } from "@core/wallet/wallet.interface";
 
 class CryptoModule {
   //SHA256
@@ -28,6 +29,17 @@ class CryptoModule {
     const value = `${version}${height}${timestamp}${merkleRoot}${previousHash}${difficulty}${nonce}`;
     return this.SHA256(value);
   }
+
+  createReceiptHash(receipt: Receipt) {
+    const {
+      sender: { publicKey },
+      received,
+      amount,
+    } = receipt;
+    const message = [publicKey, receipt, amount].join("");
+    return this.SHA256(message);
+  }
+
   SHA256(data: string): Hash {
     const hash: Hash = cryptojs.SHA256(data).toString();
     return hash as Hash;

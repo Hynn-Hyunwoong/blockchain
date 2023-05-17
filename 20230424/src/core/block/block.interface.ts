@@ -1,5 +1,5 @@
 import { TransactionData } from "@core/transaction/transaction.interface";
-import { Difficulty, Hash, Height, Timestamp } from "tpyes/block";
+import { Difficulty, Hash, Height, Timestamp } from "types/block";
 
 export class BlockInfo {
   public version!: string;

@@ -5,9 +5,26 @@ import {
   TransactionData,
   TransactionRow,
 } from "@core/transaction/transaction.interface";
+import WorkProof from "./ProofofWorks/workproof";
 
 class Block {
-  constructor(private readonly crypto: CryptoModule) {}
+  constructor(
+    private readonly crypto: CryptoModule,
+    private readonly workProof: WorkProof
+  ) {}
+
+  mine(previousBlock: IBlock, data: TransactionData, adjustmentBlock: IBlock) {
+    const blockData = this.createBlockData(previousBlock, data);
+    // This Logic foor POW & POS Algorithm
+    // Block create need to block-hash
+    // Block hash requirement hex -> before binary how many 0
+    // Createtime -> 10min -> 600sec -> 6000000ms
+    // Checking to previousBlock & currentBlock
+    // 1~10 block checking genesys block
+    // 11~20 block checking 1~10 block
+    const newBlock = this.workProof.run(blockData, adjustmentBlock);
+    return newBlock;
+  }
 
   isValidBlock(block: IBlock) {
     // Requirement Validation for previous Block Hash value
