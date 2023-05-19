@@ -1,26 +1,93 @@
 import { IBlock } from "@core/block/block.interface";
-import { TransactionRow, TxIn, TxOut } from "./transaction.interface";
+import {
+  TransactionPool,
+  TransactionRow,
+  TxIn,
+  TxOut,
+  UnspentTxOut,
+} from "./transaction.interface";
 import CryptoModule from "@core/crypto/crypto.module";
 import { SignatureInput } from "elliptic";
 import { Receipt } from "@core/wallet/wallet.interface";
 
 class Transaction {
   private readonly REWARD = 50;
+  private readonly transactionPool: TransactionPool = [];
   constructor(private readonly crypto: CryptoModule) {}
 
-  createReceipt(receipt: Receipt) {
-    const totalAmount = 50;
-    const txIn = this.createTxIn(1, "", receipt.signature);
-
-    const txOut_sender = this.createTxOut(
-      receipt.sender.account,
-      totalAmount - receipt.amount
-    );
-    const txOut_received = this.createTxOut(receipt.received, receipt.amount);
-
-    return this.createRow([txIn], [txOut_sender, txOut_received]);
+  getPool() {
+    return this.transactionPool;
   }
 
+  createReceipt(receipt: Receipt, myUnspantTxOuts: UnspentTxOut[]) {
+    // create txIn, txOut, based on receipt
+    if (!receipt.signature)
+      throw new Error("Invalid receipt. Please try again");
+    // 1. TxIn
+    const [txIns, balance] = this.createInput(
+      myUnspantTxOuts,
+      receipt.amount,
+      receipt.signature
+    );
+    // 2. TxOut
+    const txOuts = this.createOutput(
+      receipt.received,
+      receipt.amount,
+      receipt.sender.account,
+      balance
+    );
+    // 3. TransactionRow
+    const transaction: TransactionRow = {
+      txIns,
+      txOuts,
+    };
+    transaction.hash = this.serializeRow(transaction);
+    this.transactionPool.push(transaction);
+    return transaction;
+  }
+
+  createOutput(
+    received: string,
+    amount: number,
+    sender: string,
+    balance: number
+  ) {
+    const txouts: TxOut[] = [];
+    txouts.push({ account: received, amount });
+
+    if (balance - amount > 0) {
+      txouts.push({ account: sender, amount: balance - amount });
+    }
+    const outAmount = txouts.reduce(
+      (acc, txout: TxOut) => acc + txout.amount,
+      0
+    );
+
+    if (balance !== outAmount) throw new Error("1");
+    return txouts;
+  }
+
+  createInput(
+    myUnspantTxOuts: UnspentTxOut[],
+    receiptAmount: number,
+    signature: SignatureInput
+  ): [TxIn[], number] {
+    // getInput Target
+    // While create transaction object(transactionRow), create txIn
+    let targetAmount = 0;
+    const txins = myUnspantTxOuts.reduce(
+      (acc: TxIn[], unspentTxOut: UnspentTxOut) => {
+        const { amount, txOutId, txOutIndex } = unspentTxOut;
+        if (targetAmount >= receiptAmount) return acc;
+
+        targetAmount += amount;
+        acc.push({ txOutId, txOutIndex, signature });
+        return acc;
+      },
+      [] as TxIn[]
+    );
+    return [txins, targetAmount];
+  }
   createTxOut(account: string, amount: number): TxOut {
     // privateKey 32byte 64length
     // publicKey 32byte 64length

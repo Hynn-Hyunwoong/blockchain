@@ -18,7 +18,7 @@ export class TransactionRow {
 }
 
 export class UnspentTxOut {
-  txOudId!: string;
+  txOutId!: string;
   txOutIndex!: number;
   account!: string;
   amount!: number;

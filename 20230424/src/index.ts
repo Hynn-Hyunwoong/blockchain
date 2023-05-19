@@ -15,20 +15,28 @@ const crypto = new CryptoModule();
 const proof = new ProofOfWork(crypto);
 const workProof = new WorkProof(proof);
 const transaction = new Transaction(crypto);
-const unspent = new Unspent(transaction);
+const unspent = new Unspent();
 
 const block = new Block(crypto, workProof);
 const digitalSignature = new DigitalSignature(crypto);
 const accounts = new Wallet(digitalSignature);
-const Hynn = new Inchain(chain, block, transaction, unspent);
+const Hynn = new Inchain(chain, block, transaction, unspent, accounts);
 
 const sender = accounts.create();
-const block01 = Hynn.mineBlock(sender.account);
+const received = accounts.create();
+const receipt = Hynn.accounts.receipt(received.account, 10);
+
 Hynn.mineBlock(sender.account);
 Hynn.mineBlock(sender.account);
-Hynn.mineBlock(sender.account);
-Hynn.mineBlock(sender.account);
-Hynn.mineBlock(sender.account);
-console.log(block01);
-const balance = Hynn.getBalance(sender.account);
-console.log(balance);
+Hynn.mineBlock(received.account);
+Hynn.mineBlock(received.account);
+
+Hynn.sendTransaction(receipt);
+
+// console.log(unspent.getUnspentTxPool());
+
+const balance1 = Hynn.getBalance(sender.account);
+const balance2 = Hynn.getBalance(received.account);
+
+console.log("sender balance : ", balance1);
+console.log("received balance : ", balance2);

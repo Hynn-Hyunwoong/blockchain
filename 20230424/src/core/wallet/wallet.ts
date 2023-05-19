@@ -5,7 +5,7 @@ class Wallet {
   private readonly accounts: Accounts[] = [];
   constructor(private readonly digitalSignature: DigitalSignature) {}
 
-  create(): Accounts {
+  public create(): Accounts {
     const privateKey = this.digitalSignature.createPrivateKey();
     const publicKey = this.digitalSignature.createPublicKey(privateKey);
     const account = this.digitalSignature.createAccount(publicKey);
@@ -18,7 +18,7 @@ class Wallet {
     this.accounts.push(accounts);
     return accounts;
   }
-  set(privateKey: string) {
+  public set(privateKey: string) {
     const publicKey = this.digitalSignature.createPublicKey(privateKey);
     const account = this.digitalSignature.createAccount(publicKey);
 
@@ -30,14 +30,14 @@ class Wallet {
     this.accounts.push(accounts);
     return accounts;
   }
-  getAccounts() {
+  public getAccounts() {
     const accounts = this.accounts.map((v) => v.account);
     return accounts;
   }
   getPrivate(accounts: string) {
     return this.accounts.filter((v) => v.account === accounts)[0].privateKey;
   }
-  receipt(received: string, amount: number) {
+  public receipt(received: string, amount: number) {
     const { account, publicKey, privateKey } = this.accounts[0];
     const sender = {
       account,
@@ -52,7 +52,9 @@ class Wallet {
     return receipt;
   }
   sign() {}
-  verify() {}
+  verify(receipt: Receipt): boolean {
+    return this.digitalSignature.verify(receipt);
+  }
 }
 
 export default Wallet;
