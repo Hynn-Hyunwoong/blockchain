@@ -1,0 +1,16 @@
+{
+  "name": "20230519",
+  "version": "1.0.0",
+  "description": "1. Block 2. Account 3. Message oor Transaction 4. Fee(Gas) - Reward 5. ETH 단위",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ganache-cli": "^6.12.2",
+    "web3": "^1.10.0"
+  }
+}
