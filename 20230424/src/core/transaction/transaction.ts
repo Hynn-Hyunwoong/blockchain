@@ -1,5 +1,6 @@
 import { IBlock } from "@core/block/block.interface";
 import {
+  TransactionData,
   TransactionPool,
   TransactionRow,
   TxIn,
@@ -152,6 +153,17 @@ class Transaction {
     const txout = this.createTxOut(account, this.REWARD);
 
     return this.createRow([txin], [txout]);
+  }
+
+  update(transaction: TransactionRow) {
+    const findCallback = (tx: TransactionRow) => transaction.hash === tx.hash;
+    const index = this.transactionPool.findIndex(findCallback);
+    if (index !== -1) this.transactionPool.splice(index, 1);
+  }
+
+  sync(transactions: TransactionData) {
+    if (typeof transactions === "string") return;
+    transactions.forEach(this.update.bind(this));
   }
 }
 

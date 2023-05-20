@@ -13,6 +13,7 @@ class Inchain {
     private readonly unspent: Unspent,
     public readonly accounts: Wallet
   ) {}
+
   mineBlock(account: string) {
     const latestBlock = this.chain.latestBlock();
     const adjustmentBlock = this.chain.getAdjustmentBlock();
@@ -29,11 +30,13 @@ class Inchain {
     );
     this.chain.addToChain(newBlock);
     console.info("Completed Creation new Block");
-    console.log(newBlock.data.length);
+
     this.unspent.sync(newBlock.data);
+    this.transaction.sync(newBlock.data);
 
     return this.chain.latestBlock();
   }
+
   public sendTransaction(receipt: Receipt) {
     const isVerfiy = this.accounts.verify(receipt);
     if (!isVerfiy) throw new Error("Invalid receipt. Please try again");
@@ -44,9 +47,11 @@ class Inchain {
     if (balance < receipt.amount) throw new Error("Insufficient balance");
     const tx = this.transaction.createReceipt(receipt, myUnspantTxOuts);
 
-    this.unspent.update(tx);
+    // this.unspent.update(tx);
+    // this.transaction.update(tx);
   }
-  getBalance(accounts: string) {
+
+  public getBalance(accounts: string) {
     const myUnspantTxOuts = this.unspent.me(accounts);
     const balance = this.unspent.getAmount(myUnspantTxOuts);
     return balance;
