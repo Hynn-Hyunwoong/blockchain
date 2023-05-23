@@ -1,0 +1,16 @@
+{
+  "name": "20230522",
+  "version": "1.0.0",
+  "description": "1. Smart-Contract Deploy 2. Call & Send",
+  "main": "class.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ganache-cli": "^6.12.2",
+    "truffle": "^5.9.1"
+  }
+}

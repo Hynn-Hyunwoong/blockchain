@@ -9,6 +9,7 @@ import Unspent from "@core/transaction/unspant";
 import DigitalSignature from "@core/wallet/digitalSignature";
 import Wallet from "@core/wallet/wallet";
 import App from "@serve/app";
+import Message from "@serve/message";
 import P2PNetwork from "@serve/p2p";
 
 const chain = new Chain();
@@ -24,7 +25,7 @@ const digitalSignature = new DigitalSignature(crypto);
 const accounts = new Wallet(digitalSignature);
 const Hynn = new Inchain(chain, block, transaction, unspent, accounts);
 
-const app = App(Hynn);
-
-const p2p = new P2PNetwork();
+// const app = App(Hynn);
+const message = new Message(Hynn);
+const p2p = new P2PNetwork(message);
 p2p.listen(8555);

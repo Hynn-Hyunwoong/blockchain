@@ -1,14 +1,16 @@
 import net, { Socket } from "net";
 import MessageData from "./network.interface";
 import { IBlock } from "@core/block/block.interface";
+import Message from "./message";
 
 class P2PNetwork {
   private readonly sockets: Socket[] = [];
-
+  constructor(private readonly message: Message) {}
   // Server Section
   public listen(port: number) {
     const connection = (socket: Socket) => this.handleConnection(socket);
     const server = net.createServer(connection);
+    console.log(`This server listening on port ${port}`);
     server.listen(port);
   }
 
@@ -25,10 +27,25 @@ class P2PNetwork {
       `[+] New connection from ${socket.remoteAddress}:${socket.remotePort}`
     );
     this.sockets.push(socket);
+    const dataCallback = (data: Buffer) => this.message.hanlder(socket, data);
+    socket.on("data", dataCallback);
+
+    const message: MessageData = {
+      type: "latestBlock",
+      payload: {} as IBlock,
+    };
+
+    socket.write(JSON.stringify(message));
+
     // Broadcast Section
     const disconnect = () => this.handleDisconnection(socket);
     socket.on("close", disconnect);
     socket.on("error", disconnect);
+  }
+
+  private dataHandler(socket: Socket) {
+    const callback = (data: Buffer) => this.message.hanlder(socket, data);
+    socket.on("data", callback);
   }
 
   private handleDisconnection(socket: Socket) {
