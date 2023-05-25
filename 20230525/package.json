@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.11",
+    "dotenv": "^16.0.3"
+  },
+  "name": "20230525",
+  "description": "1. Main-Net 2. Test-Net 3. Ganache",
+  "version": "1.0.0",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
