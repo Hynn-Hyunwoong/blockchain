@@ -1,0 +1,19 @@
+{
+  "name": "20230531",
+  "version": "1.0.0",
+  "description": "1. 유일성",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.0",
+    "openzeppelin-solidity": "^3.4.2"
+  }
+}
